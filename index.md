@@ -1,2 +1,2 @@
 
-<img src = "doc/landing.png">
+<img src = "doc/landing.PNG">
