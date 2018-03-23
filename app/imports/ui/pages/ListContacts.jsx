@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { Container, Table, Header, Loader, Card } from 'semantic-ui-react';
 import { Contacts } from '/imports/api/contact/contact';
 import { Notes } from '/imports/api/note/note';
-import StuffItem from '/imports/ui/components/StuffItem';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import Contact from '/imports/ui/components/Contact';
