@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { Accounts } from 'meteor/accounts-base';
-
+import { Profiles, ProfileSchema } from '/imports/api/profile/profile';
+import { languageList } from '/imports/api/profile/languageList.js';
 /**
  * Signup component is similar to signin component, but we attempt to create a new user instead.
  */
@@ -22,10 +23,16 @@ export default class Signup extends React.Component {
     this.setState({ [name]: value });
   }
 
+  submit(data) {
+    const { lastName, firstName, email, bio, picture, fluentLanguages, practiceLanguages } = data;
+    const owner = Meteor.user().username;
+    Profiles.insert({ lastName, firstName, email, bio, picture, fluentLanguages, practiceLanguages }, this.insertCallback);
+  }
+
   /** Handle Signup submission using Meteor's account mechanism. */
   handleSubmit() {
     const { email, password } = this.state;
-    Accounts.createUser({ email, username: email, password }, (err) => {
+    Accounts.createUser({ email, username: email, password}, (err) => {
       if (err) {
         this.setState({ error: err.reason });
       } else {
@@ -47,7 +54,7 @@ export default class Signup extends React.Component {
                 <Segment stacked>
                   <Form.Input
                       label="Email"
-                      icon="user"
+                      icon="envelope"
                       iconPosition="left"
                       name="email"
                       type="email"
@@ -63,6 +70,30 @@ export default class Signup extends React.Component {
                       type="password"
                       onChange={this.handleChange}
                   />
+                  <div class="ui form" onChange={this.handleChange}>
+                    <div class="field">
+                      <label>Bio</label>
+                      <textarea></textarea>
+                    </div>
+                  </div>
+                  <Form.Input
+                      label="Picture"
+                      icon="user"
+                      iconPosition="left"
+                      name="picture"
+                      placeholder="Picture"
+                      type="picture"
+                      onChange={this.handleChange}
+                  />
+                  <div class="ui form">
+                    <div class="field">
+                      <label>Fluent Language</label>
+                      <select id="selectLanguage" class="ui search dropdown">
+                        <option>Select Language</option>
+
+                      </select>
+                    </div>
+                  </div>
                   <Form.Button content="Submit"/>
                 </Segment>
               </Form>
